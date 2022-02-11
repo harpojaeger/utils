@@ -1,7 +1,5 @@
 #! /bin/bash
 
-# adb forward tcp:1234 tcp:1234
-
 INDIR="/home/harpo/Music/Swinsian/"
 OUTDIR="/home/harpo/Music/m4a/"
 
