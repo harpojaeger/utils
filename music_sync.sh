@@ -15,7 +15,8 @@ sort -zn | \
 # execute the following bash script for each file
 xargs -0 -I '{}' \
 bash -c '
-ffmpeg -i "$1$0" -n -v error -stats -ar 44100 -ac 2 -b:a 192k "$2${0%.*}".m4a' \
+ffmpeg -i "$1$0" -n -v error -stats -ar 44100 -ac 2 -b:a 192k "$2${0%.*}".m4a && echo "Processed ${0%.*}"
+' \
 "{}" "$INDIR" "$OUTDIR"
 
 # Bind localhost:4242 to port 8022 on Android (termux sshd default)
