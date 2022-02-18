@@ -23,4 +23,4 @@ ffmpeg -i "$1$0" -n -vn -ar 44100 -ac 2 -b:a 192k "$2${0%.*}".m4a' \
 adb forward tcp:4242 tcp:8022
 
 # Sync music
-#rsync -ravzhmp --delete-before --progress "$OUTDIR" mandroid_usb:/sdcard/Music/synced/
+rsync -ravzhmp --delete-before --progress "$OUTDIR" mandroid_usb:/sdcard/Music/synced/
