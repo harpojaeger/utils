@@ -20,9 +20,22 @@ sort -zn | \
 # execute the following bash script for each file
 xargs -0 -I '{}' \
 bash -c '
-ffmpeg -i "$1$0" -map 0:a:0 -n -v error -stats -ar 44100 -ac 2 -b:a 192k "$2${0%.*}".m4a && echo "Processed ${0%.*}"
-' \
-"{}" "$INDIR" "$OUTDIR"
+ffmpeg -i "$1$0" \
+`# Map the first audio stream from the input (https://superuser.com/a/849136/579053).` \
+`# Previously, audio files would fail transcoding if the streams were in an unexpected order.` \
+-map 0:a:0 \
+`# Skip files if they exist already` \
+-n \
+`# Configure log level the way I like it` \
+-v error -stats \
+`# Set various output options: sample rate, channels, bitrate` \
+-ar 44100 -ac 2 -b:a 192k \
+`# Define output file` \
+"$2${0%.*}".m4a \
+`# If the command succeeded (i.e. the file was transcoded), output its name.` \
+`# When the transcoding fails, the filename is (usually) included in the error.` \
+&& echo "Processed ${0%.*}"
+' "{}" "$INDIR" "$OUTDIR"
 
 # Bind localhost:4242 to port 8022 on Android (termux sshd default)
 # (https://glow.li/posts/access-termux-via-usb/)
