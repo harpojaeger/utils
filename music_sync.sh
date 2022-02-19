@@ -7,6 +7,11 @@ OUTDIR="/home/harpo/Music/m4a/"
 cd "$INDIR"
 find . -type d -exec mkdir -p "$OUTDIR/{}" {} \;
 
+# remove all empty files from OUTDIR. Previous failed runs of ffmpeg might have
+# left these here, and the below ffmpeg command will then skip trying to
+# transcode them again
+find "$OUTDIR" -size 0b -exec rm {} \;
+
 # convert files to m4a, including ID3 tags
 # (currently doesn't convert album art)
 find . -type f -print0 | \
